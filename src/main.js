@@ -1,47 +1,103 @@
+// import {generateId, convertDateFormat, getDate} from "./utils";
+// import {generateId, convertDateFormat, getDate } from "./utils";
 
-// Sidebar show and hide
-const sidebar = document.getElementById('menuHideShow').addEventListener('click', function () {
-    // Swal.fire("Side Bar Button is working!");
-    alert(" clicked");
-});
+// todolist all li item
+const todoList = document.getElementById("todo-list");
+const addTaskForm = document.getElementById("addTaskForm");
+const addNewTaskBtn = document.getElementById('addNewTaskBtn');
+
+// todo input field
+const todoIdInput = document.getElementById("todo-id-input");
+const todoTextInput = document.getElementById("todo-task-name");
+const todoDescription = document.getElementById("todoDescription");
+const listType = document.getElementById("listType");
+const dueDate = document.getElementById("dueDate");
+
+//* Todo form show and hide section start
+const saveChangesBtn = document.getElementById('saveChangesBtn');
+const addTodoItemBtn = document.getElementById('addTodoItemBtn');
+
+const taskListContainer = document.getElementById('taskListContainer');
+const closeTaskBtn = document.getElementById('closeTaskBtn');
+const deleteTaskBtn = document.getElementById('deleteTaskBtn');
+
+const sidebar = document.getElementById("sidebar");
+const taskHeading = document.getElementById("taskHeading");
+// const tasks = document.querySelectorAll('#tasksAndLists ul li');
 
 
-// * Sidebar section Start
-const tasks = document.querySelectorAll('#tasksAndLists ul li');
+// ^ Sidebar section Start
 const activeClasses = ['bg-gray-200', 'text-xs', 'font-semibold', 'text-gray-700', 'rounded-md', 'shadow-sm', 'ease-in-out', 'duration-400'];
-tasks.forEach((li) => {
-    li.addEventListener('mouseover', () => {
-        if (!li.classList.contains('active')) {
-            li.classList.add(...activeClasses);
-        }
-    });
+// tasks.forEach((li) => {
+//     li.addEventListener('mouseover', () => {
+//         if (!li.classList.contains('active')) {
+//             li.classList.add(...activeClasses);
+//         }
+//     });
 
-    li.addEventListener('mouseout', () => {
-        if (!li.classList.contains('active')) {
-            li.classList.remove(...activeClasses);
-        }
-    });
+//     li.addEventListener('mouseout', () => {
+//         if (!li.classList.contains('active')) {
+//             li.classList.remove(...activeClasses);
+//         }
+//     });
 
-    li.addEventListener('click', () => {
-        tasks.forEach(item => {
-            item.classList.remove('active', ...activeClasses);
-        });
-        li.classList.add('active', ...activeClasses);
-        taskHeading.textContent = `${li.textContent}`;
-    });
+//     li.addEventListener('click', () => {
+//         tasks.forEach(item => {
+//             item.classList.remove('active', ...activeClasses);
+//         });
+//         li.classList.add('active', ...activeClasses);
+//         taskHeading.textContent = `${li.textContent}`;
+//     });
 
+// });
+['click', 'mouseover', 'mouseout'].forEach(eventType => {
+    sidebar.addEventListener(eventType, clickSidebarEvent);
 });
-// * Sidebar section End
+function clickSidebarEvent(event) {
+    const target = event.target.closest('[sidebar-item]');
+    if (target) {
+        if (event.type === 'mouseover' && !target.classList.contains('active')) {
+            target.classList.add(...activeClasses);
+        }
 
+        if (event.type === 'mouseout' && !target.classList.contains('active')) {
+            target.classList.remove(...activeClasses);
+        }
+
+        if (event.type === 'click') {
+
+            document.querySelectorAll('[sidebar-item]').forEach(el =>
+                el.classList.remove('active', ...activeClasses)         //* Remove 'active' class from all sidebar items
+            );
+            target.classList.add('active', ...activeClasses);   // * Add 'active' class to the clicked item
+            taskHeading.textContent = target.textContent;       // * Update heading text
+            filter = target.dataset.filter;     // * set filter
+            renderTodolist();       // * re-render to-do list
+
+            console.log('Filterd value:', filter);
+        }
+    }
+}
+// ^ Sidebar section End
 
 
 const todos = [
     {
         id: generateId(),
+        task_name: "Consult accountent",
+        task_description: "Consult accountent",
+        task_list_type: "Other",
+        task_date: formatDate(["2020-01-12T17:13"]),
+        subtask_no: 4,
+        is_important: true,
+        is_done: false,
+    },
+    {
+        id: generateId(),
         task_name: "Research ocntent ideas",
         task_description: "Research ocntent ideas",
         task_list_type: "Work",
-        task_date: null,
+        task_date: formatDate(["2019-05-05T17:13"]),
         subtask_no: 1,
         is_important: false,
         is_done: false,
@@ -51,7 +107,7 @@ const todos = [
         task_name: "Create a database of guest authors",
         task_description: "Create a database of guest authors",
         task_list_type: "",
-        task_date: null,
+        task_date: formatDate(["2026-05-05T17:13"]),
         subtask_no: 2,
         is_important: true,
         is_done: true,
@@ -61,7 +117,7 @@ const todos = [
         task_name: "Renew driver's licence",
         task_description: "Renew driver's licence",
         task_list_type: "Personal",
-        task_date: null,
+        task_date: formatDate(["2025-05-05T17:13"]),
         subtask_no: 3,
         is_important: false,
         is_done: false,
@@ -71,29 +127,46 @@ const todos = [
         task_name: "Consult accountent",
         task_description: "Consult accountent",
         task_list_type: "Other",
-        task_date: new Date(["2020-06-19", "17:13"]),
+        task_date: formatDate(["2025-06-19T17:13"]),
         subtask_no: 4,
         is_important: true,
         is_done: false,
     },
     {
         id: generateId(),
-        task_name: "Print business card",
-        task_description: "Print business card",
-        task_list_type: "",
-        task_date: new Date(["2020-06-19", "17:13"]),
-        subtask_no: "5",
-        is_important: false,
-        is_done: true,
+        task_name: "Consult accountent",
+        task_description: "Consult accountent",
+        task_list_type: "Other",
+        task_date: formatDate(["2025-06-19T17:13"]),
+        subtask_no: 4,
+        is_important: true,
+        is_done: false,
     },
+    
+    // {
+    //     id: generateId(),
+    //     task_name: "Print business card",
+    //     task_description: "Print business card",
+    //     task_list_type: "",
+    //     task_date: formatDate(["2020-06-19T17:13"]),
+    //     subtask_no: 5,
+    //     is_important: false,
+    //     is_done: true,
+    // },
+    // {
+    //     id: generateId(),
+    //     task_name: "Print business card akjdgagkdlsaf",
+    //     task_description: "Print business card",
+    //     task_list_type: "",
+    //     task_date: formatDate(["2019-06-19T17:13"]),
+    //     subtask_no: 5,
+    //     is_important: false,
+    //     is_done: true,
+    // },
 ];
-
-// ! todo array item id 
 function generateId() {
     return (Date.now().toString(36) + "-" + Math.random().toString(36).substring(2, 8));
 }
-
-
 function convertDateFormat(dateString) {
     const date = new Date(dateString);
     const year = date.getFullYear();
@@ -116,39 +189,30 @@ function getDate(dateString) {
 }
 
 
-// todolist all li item
+
+function formatToCustomDateString(formInputDate) {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const year = date.getFullYear();
+
+    let hours = date.getHours();
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+
+    hours = hours % 12 || 12; // Convert 0 to 12 for 12-hour format
+
+    return `${day}-${month}-${year} ${hours.toString().padStart(2, '0')}:${minutes}${ampm}`;
+}
 
 
-const todoList = document.getElementById("todo-list");
-const addTaskForm = document.getElementById("addTaskForm");
-const addNewTaskBtn = document.getElementById('addNewTaskBtn');
-
-// todo input field
-const todoIdInput = document.getElementById("todo-id-input");
-const todoTextInput = document.getElementById("todo-task-name");
-const todoDescription = document.getElementById("todoDescription");
-const listType = document.getElementById("listType");
-const dueDate = document.getElementById("dueDate");
-
-//* Todo form show and hide section start
-const saveChangesBtn = document.getElementById('saveChangesBtn');
-const addTodoItemBtn = document.getElementById('addTodoItemBtn');
-
-const taskListContainer = document.getElementById('taskListContainer');
-const closeTaskBtn = document.getElementById('closeTaskBtn');
-const deleteTaskBtn = document.getElementById('deleteTaskBtn');
-
-
+//^ Todo form show and hide section Start
 addNewTaskBtn.addEventListener('click', () => {
     taskListContainer.classList.remove('w-full');
     taskListContainer.classList.add('w-3/4');
 
     addTaskForm.classList.remove('hidden', 'w-0');
     addTaskForm.classList.add('w-md');
-
-
 });
-
 function hideFormContainer() {
     taskListContainer.classList.remove('w-3/4');
     taskListContainer.classList.add('w-full');
@@ -156,35 +220,63 @@ function hideFormContainer() {
     addTaskForm.classList.add('hidden');
     addTaskForm.classList.remove('w-md');
 
-
     addTaskForm.reset();
     toggleSubmitBtns(false); 
 }
 closeTaskBtn.addEventListener('click', hideFormContainer);
 deleteTaskBtn.addEventListener('click', hideFormContainer);
-//* Todo form show and hide section End
+//^ Todo form show and hide section End
 
 
+// // Get today's date
+// const currentDate = new Date();
 
-//^  render todo lists {read}
-function renderTodolist(filter = "all") {
+// // Number of days to add (e.g., 5 days from now)
+// const daysToAdd = 5;
+
+// // Create new date
+// const futureDate = new Date();
+// futureDate.setDate(currentDate.getDate() + daysToAdd);
+
+// // Log the result
+// console.log('Current Date:', currentDate.toDateString());
+// console.log(`Date after ${daysToAdd} days:`, futureDate.toDateString());
+
+//^  render todo lists Start {read}
+let filter = "all";
+function renderTodolist() {
     const filtered_todos = todos.filter((todo) => {
+
+        const currentDate = formatDate(new Date());
+        const givenDate = formatDate(todo.task_date);  
+
         if (filter == "all") {
             return true;
+        } else if (filter == "upcoming") {
+            return givenDate > currentDate;
+        }else if (filter == "today") {
+               
+            console.log(currentDate);
+            console.log(givenDate);
+            return currentDate === givenDate;
+        }  else if (filter == "important") {
+            return todo.is_important;
+        } else if (filter == "completed") {
+            return todo.is_done;
         }
-        // else if (filter == "Today") {
-        //     const current_date = getDate(new Date());
-        //     const todo_due_date = getDate(todo.due_date);
-        //     return current_date === todo_due_date;
-        // } else if (filter == "Upcoming") {
-        //     return todo.due_date;
-        // } else if (filter == "Calendar") {
-        //     return todo.is_important;
-        // } else if (filter == "completed") {
-        //     return todo.is_done;
-        // }
+    });
+    document.querySelectorAll("[sidebar-item]").forEach((el) => {
+        if (el.dataset.filter === filter) {
+          el.classList.add("active");
+        }
     });
 
+//     const diffMillis = currentDate - givenDate;
+// const diffDays = Math.floor(diffMillis / (1000 * 60 * 60 * 24));
+    // const doneCount = todos.filter(todo => todo.is_done).length;
+    // document.getElementById('doneCount').textContent = doneCount;
+
+    
 
 
     let todo_list = "";
@@ -257,9 +349,13 @@ function renderTodolist(filter = "all") {
     });
     todoList.innerHTML = todo_list;
 }
+console.log(todos);
+//^  render todo lists End {read}
 
-
-//^ add new toto {create} 
+/*========================================================================
+ **                           SECTION Create new Todo 
+ *========================================================================**/
+//^ add new toto Start {create} 
 addTaskForm.addEventListener("submit", function (event) {
     event.preventDefault();
 
@@ -268,9 +364,11 @@ addTaskForm.addEventListener("submit", function (event) {
     const task_description = todoDescription.value;
     const list_type = listType.value;
 
-    const todo_due_date = dueDate.value;
-    const due_date = todo_due_date ? new Date(todo_due_date) : null;
+    const formInputDate = dueDate.value;
+    const due_date = formInputDate ? new Date(formInputDate) : null;
 
+    // console.log(due_date);
+    
     if(todo_list_id){
         const todo = todos.find((elem) => elem.id === todo_list_id);
         // edit existing array element
@@ -279,8 +377,11 @@ addTaskForm.addEventListener("submit", function (event) {
             todo.task_description = task_description;
             todo.task_list_type = list_type;
             if (due_date) {
-              todo.task_date = due_date;
+              todo.task_date = formatDate(due_date);
+              
             }
+            
+
         }
     }else{
     //& create new array element
@@ -289,17 +390,12 @@ addTaskForm.addEventListener("submit", function (event) {
             task_name: task_name,
             task_description: task_description,
             task_list_type: list_type,
-            task_date: due_date,
+            task_date: formatDate(due_date),
             is_important: false,
             is_done: false,
         });
-        // Swal.fire({
-        //     position: "top-end",
-        //     icon: "success",
-        //     title: "Add successfully",
-        //     showConfirmButton: false,
-        //     timer: 1500
-        // });
+        console.log(todos);
+        
     }
 
     renderTodolist();
@@ -314,9 +410,24 @@ addTaskForm.addEventListener("submit", function (event) {
 
     toggleSubmitBtns(false);
 });
+//^ add new toto End {create} 
+/*============================ END OF SECTION ============================*/
 
-// initial render
-renderTodolist();
+function formatDate(due_date) {   
+    const date = new Date(due_date);
+
+    const month = date.getMonth() + 1; 
+    const day = date.getDate();
+    const year = date.getFullYear();
+
+    let hours = date.getHours();
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12 || 12; 
+
+    return `${day}-${month}-${year}, ${hours}:${minutes} ${ampm}`;
+}
 
 //^ Dynamic action perform with onclick event(Checkbox, Mark Important, Edit, Delete)
 todoList.addEventListener("click", function (event) {
@@ -340,7 +451,6 @@ todoList.addEventListener("click", function (event) {
             todo.is_important = !todo.is_important;
             renderTodolist();
         }
-        // console.log(todos);
     }
 
     //& Modified Edit Button
@@ -396,6 +506,11 @@ function toggleSubmitBtns(edit = false) {
     }
   }
 
+
+renderTodolist();
+
+
+ 
 
 
 
