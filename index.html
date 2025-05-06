@@ -48,7 +48,7 @@
         <!-- Tasks -->
         <div class="text-xs">
           <h3 class=" font-bold text-gray-600 uppercase mb-2">Tasks</h3>
-          <ul id="sidebar" class="space-y-1.5 font-medium text-gray-700 cursor-pointer">
+          <ul id="sidebarMenuList" class="space-y-1.5 font-medium text-gray-700 cursor-pointer">
 
             <li sidebar-item class="flex items-center justify-between p-1.5" data-filter="all">
               <div class="flex items-center">
@@ -59,7 +59,7 @@
 
                 <span class="flex items-center gap-2 ml-2">All Task</span>
               </div>
-              <span class="w-8 py-0.5 bg-gray-300 flex justify-center items-center rounded-md notification">5</span>
+              <span class="w-8 py-0.5 bg-gray-300 flex justify-center items-center rounded-md notification" id="countAllTask"></span>
             </li>
 
             <li sidebar-item class="flex items-center justify-between p-1.5 select-none" data-filter="upcoming">
@@ -72,7 +72,7 @@
                 <span class="flex items-center gap-2 ml-2">Upcoming</span>
               </div>
               <span
-                class="w-8 py-0.5 bg-gray-300 text-[12px] flex justify-center items-center rounded-md notification">2</span>
+                class="w-8 py-0.5 bg-gray-300 text-[12px] flex justify-center items-center rounded-md notification" id="countUpcomingTask"></span>
             </li>
 
             <li sidebar-item class="flex items-center justify-between p-1.5 select-none" data-filter="today">
@@ -195,7 +195,7 @@
       <!-- & Task View Read from middle -->
       <div id="taskListContainer" class="w-full p-4 rounded-md transition-all duration-300">
         <div class="mb-8 flex items-center">
-          <div id="taskHeading" class="text-3xl font-bold text-gray-700 inline-flex">
+          <div id="sidebarClickedTaskName" class="text-3xl font-bold text-gray-700 inline-flex">
             
           </div>
           <!-- <h1 id="" class="text-3xl font-bold text-gray-700">Today</h1>
@@ -245,8 +245,8 @@
               class="p-2 w-full h-25 resize-none rounded overflow-auto shadow text-sm" required></textarea>
 
             <div class="flex items-center w-full">
-              <label for="listType" class="w-20">Lists</label>
-              <select id="listType" class="shadow rounded px-2 py-1 ml-2" required>
+              <label for="todoListType" class="w-20">Lists</label>
+              <select id="todoListType" class="shadow rounded px-2 py-1 ml-2" required>
                 <option value="" disabled selected>-- Select --</option>
                 <option value="Personal">Personal</option>
                 <option value="Work">Work</option>
@@ -319,7 +319,7 @@
 
 
   <!-- <script type="module" src="src/main.js"></script> -->
-  <script src="src/main.js"></script>
+  <script type="module" src="src/main.js"></script>
   <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
 </body>
 

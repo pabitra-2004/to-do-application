@@ -1,5 +1,5 @@
-// import {generateId, convertDateFormat, getDate} from "./utils";
-// import {generateId, convertDateFormat, getDate } from "./utils";
+import { generateId, convertDateFormat, showFormatDate } from "./id_and_datetime.js";
+
 
 // todolist all li item
 const todoList = document.getElementById("todo-list");
@@ -10,7 +10,7 @@ const addNewTaskBtn = document.getElementById('addNewTaskBtn');
 const todoIdInput = document.getElementById("todo-id-input");
 const todoTextInput = document.getElementById("todo-task-name");
 const todoDescription = document.getElementById("todoDescription");
-const listType = document.getElementById("listType");
+const todoListType = document.getElementById("todoListType");
 const dueDate = document.getElementById("dueDate");
 
 //* Todo form show and hide section start
@@ -21,12 +21,14 @@ const taskListContainer = document.getElementById('taskListContainer');
 const closeTaskBtn = document.getElementById('closeTaskBtn');
 const deleteTaskBtn = document.getElementById('deleteTaskBtn');
 
-const sidebar = document.getElementById("sidebar");
-const taskHeading = document.getElementById("taskHeading");
+const sidebarMenuList = document.getElementById("sidebarMenuList"); // sidebar li menu list
+const sidebarClickedTaskName = document.getElementById("sidebarClickedTaskName"); // sidebar clicked li item name
 // const tasks = document.querySelectorAll('#tasksAndLists ul li');
 
 
-// ^ Sidebar section Start
+
+
+// !^ Sidebar section Start
 const activeClasses = ['bg-gray-200', 'text-xs', 'font-semibold', 'text-gray-700', 'rounded-md', 'shadow-sm', 'ease-in-out', 'duration-400'];
 // tasks.forEach((li) => {
 //     li.addEventListener('mouseover', () => {
@@ -46,12 +48,12 @@ const activeClasses = ['bg-gray-200', 'text-xs', 'font-semibold', 'text-gray-700
 //             item.classList.remove('active', ...activeClasses);
 //         });
 //         li.classList.add('active', ...activeClasses);
-//         taskHeading.textContent = `${li.textContent}`;
+//         sidebarClickedTaskName.textContent = `${li.textContent}`;
 //     });
-
 // });
+
 ['click', 'mouseover', 'mouseout'].forEach(eventType => {
-    sidebar.addEventListener(eventType, clickSidebarEvent);
+    sidebarMenuList.addEventListener(eventType, clickSidebarEvent);
 });
 function clickSidebarEvent(event) {
     const target = event.target.closest('[sidebar-item]');
@@ -70,7 +72,7 @@ function clickSidebarEvent(event) {
                 el.classList.remove('active', ...activeClasses)         //* Remove 'active' class from all sidebar items
             );
             target.classList.add('active', ...activeClasses);   // * Add 'active' class to the clicked item
-            taskHeading.textContent = target.textContent;       // * Update heading text
+            sidebarClickedTaskName.textContent = target.textContent;       // * Update heading text
             filter = target.dataset.filter;     // * set filter
             renderTodolist();       // * re-render to-do list
 
@@ -78,16 +80,20 @@ function clickSidebarEvent(event) {
         }
     }
 }
-// ^ Sidebar section End
+// !^ Sidebar section End
+
+
+
 
 
 const todos = [
     {
         id: generateId(),
-        task_name: "Consult accountent",
+        task_name: "Consult accountent name",
         task_description: "Consult accountent",
         task_list_type: "Other",
-        task_date: formatDate(["2020-01-12T17:13"]),
+        // task_date: new Date("Wed May 7 2025 02:00:00 GMT+0530 (India Standard Time)"),
+        task_date: new Date(["2025-05-05T17:01"]),
         subtask_no: 4,
         is_important: true,
         is_done: false,
@@ -97,7 +103,8 @@ const todos = [
         task_name: "Research ocntent ideas",
         task_description: "Research ocntent ideas",
         task_list_type: "Work",
-        task_date: formatDate(["2019-05-05T17:13"]),
+        // task_date: new Date("Wed May 27 2026 02:00:00 GMT+0530 (India Standard Time)"),
+        task_date: new Date(["2025-05-17T17:13"]),
         subtask_no: 1,
         is_important: false,
         is_done: false,
@@ -107,7 +114,7 @@ const todos = [
         task_name: "Create a database of guest authors",
         task_description: "Create a database of guest authors",
         task_list_type: "",
-        task_date: formatDate(["2026-05-05T17:13"]),
+        task_date: new Date(["2025-05-07T03:06"]),
         subtask_no: 2,
         is_important: true,
         is_done: true,
@@ -117,95 +124,36 @@ const todos = [
         task_name: "Renew driver's licence",
         task_description: "Renew driver's licence",
         task_list_type: "Personal",
-        task_date: formatDate(["2025-05-05T17:13"]),
+        task_date: new Date(["2025-05-07T17:13"]),
         subtask_no: 3,
         is_important: false,
         is_done: false,
     },
-    {
-        id: generateId(),
-        task_name: "Consult accountent",
-        task_description: "Consult accountent",
-        task_list_type: "Other",
-        task_date: formatDate(["2025-06-19T17:13"]),
-        subtask_no: 4,
-        is_important: true,
-        is_done: false,
-    },
-    {
-        id: generateId(),
-        task_name: "Consult accountent",
-        task_description: "Consult accountent",
-        task_list_type: "Other",
-        task_date: formatDate(["2025-06-19T17:13"]),
-        subtask_no: 4,
-        is_important: true,
-        is_done: false,
-    },
-    
     // {
     //     id: generateId(),
-    //     task_name: "Print business card",
-    //     task_description: "Print business card",
-    //     task_list_type: "",
-    //     task_date: formatDate(["2020-06-19T17:13"]),
-    //     subtask_no: 5,
+    //     task_name: "Consult accountent",
+    //     task_description: "Consult accountent",
+    //     task_list_type: "Other",
+    //     task_date: formatDate(["2025-05-27T17:13"]),
+    //     // task_date: formatDate(["YYYY-DD-MM, 5:13 PM"]),
+    //     subtask_no: 4,
     //     is_important: false,
-    //     is_done: true,
+    //     is_done: false,
     // },
     // {
     //     id: generateId(),
-    //     task_name: "Print business card akjdgagkdlsaf",
-    //     task_description: "Print business card",
-    //     task_list_type: "",
-    //     task_date: formatDate(["2019-06-19T17:13"]),
-    //     subtask_no: 5,
-    //     is_important: false,
-    //     is_done: true,
+    //     task_name: "Consult accountent edit",
+    //     task_description: "Consult accountent",
+    //     task_list_type: "Other",
+    //     task_date: formatDate(["2025-05-17T17:13"]),
+    //     subtask_no: 4,
+    //     is_important: true,
+    //     is_done: false,
     // },
 ];
-function generateId() {
-    return (Date.now().toString(36) + "-" + Math.random().toString(36).substring(2, 8));
-}
-function convertDateFormat(dateString) {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Month is 0-indexed
-    const day = String(date.getDate()).padStart(2, "0");
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
+// console.log(todos)
 
-    return `${year}-${month}-${day}T${hours}:${minutes}`;
-    // return `${day}-${month}-${year}T${hours}:${minutes}`;
-}
-
-function getDate(dateString) {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Month is 0-indexed
-    const day = String(date.getDate()).padStart(2, "0");
-    // return `${year}-${month}-${day}`;
-    return `${day}-${month}-${year}`;
-}
-
-
-
-function formatToCustomDateString(formInputDate) {
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
-    const year = date.getFullYear();
-
-    let hours = date.getHours();
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-
-    hours = hours % 12 || 12; // Convert 0 to 12 for 12-hour format
-
-    return `${day}-${month}-${year} ${hours.toString().padStart(2, '0')}:${minutes}${ampm}`;
-}
-
-
-//^ Todo form show and hide section Start
+//! Todo form show and hide section Start
 addNewTaskBtn.addEventListener('click', () => {
     taskListContainer.classList.remove('w-full');
     taskListContainer.classList.add('w-3/4');
@@ -221,66 +169,47 @@ function hideFormContainer() {
     addTaskForm.classList.remove('w-md');
 
     addTaskForm.reset();
-    toggleSubmitBtns(false); 
+    toggleSubmitBtns(false);
 }
 closeTaskBtn.addEventListener('click', hideFormContainer);
 deleteTaskBtn.addEventListener('click', hideFormContainer);
-//^ Todo form show and hide section End
+//! Todo form show and hide section End
 
-
-// // Get today's date
-// const currentDate = new Date();
-
-// // Number of days to add (e.g., 5 days from now)
-// const daysToAdd = 5;
-
-// // Create new date
-// const futureDate = new Date();
-// futureDate.setDate(currentDate.getDate() + daysToAdd);
-
-// // Log the result
-// console.log('Current Date:', currentDate.toDateString());
-// console.log(`Date after ${daysToAdd} days:`, futureDate.toDateString());
-
-//^  render todo lists Start {read}
+//!^  render todo lists Start {read}
 let filter = "all";
 function renderTodolist() {
     const filtered_todos = todos.filter((todo) => {
-
-        const currentDate = formatDate(new Date());
-        const givenDate = formatDate(todo.task_date);  
+        const currentDateTime = new Date();
+        const givenDateTime = todo.task_date;
 
         if (filter == "all") {
+            // count all task number
+            const countAllTask = document.getElementById("countAllTask").innerText = todos.length;
             return true;
         } else if (filter == "upcoming") {
-            return givenDate > currentDate;
-        }else if (filter == "today") {
-               
-            console.log(currentDate);
-            console.log(givenDate);
+            return givenDateTime > currentDateTime;
+        } else if (filter == "today") {
+            const currentDate = currentDateTime.toDateString();
+            const givenDate = givenDateTime.toDateString();
             return currentDate === givenDate;
-        }  else if (filter == "important") {
+        } else if (filter == "important") {
             return todo.is_important;
         } else if (filter == "completed") {
             return todo.is_done;
         }
     });
+
     document.querySelectorAll("[sidebar-item]").forEach((el) => {
         if (el.dataset.filter === filter) {
-          el.classList.add("active");
+            el.classList.add("active");
         }
     });
 
-//     const diffMillis = currentDate - givenDate;
-// const diffDays = Math.floor(diffMillis / (1000 * 60 * 60 * 24));
-    // const doneCount = todos.filter(todo => todo.is_done).length;
-    // document.getElementById('doneCount').textContent = doneCount;
-
-    
 
 
     let todo_list = "";
     filtered_todos.forEach(function (elem, index, array) {
+
         todo_list += `<li data-id=${elem.id}>
             <div class="flex justify-between items-center bg-white px-3 py-2 gap-8 rounded-lg shadow-sm border border-gray-300">
                 <div class="flex items-center gap-2">
@@ -296,22 +225,22 @@ function renderTodolist() {
                                         <path d="M5.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H6a.75.75 0 0 1-.75-.75V12ZM6 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H6ZM7.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H8a.75.75 0 0 1-.75-.75V12ZM8 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H8ZM9.25 10a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H10a.75.75 0 0 1-.75-.75V10ZM10 11.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V12a.75.75 0 0 0-.75-.75H10ZM9.25 14a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H10a.75.75 0 0 1-.75-.75V14ZM12 9.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V10a.75.75 0 0 0-.75-.75H12ZM11.25 12a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H12a.75.75 0 0 1-.75-.75V12ZM12 13.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V14a.75.75 0 0 0-.75-.75H12ZM13.25 10a.75.75 0 0 1 .75-.75h.01a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75H14a.75.75 0 0 1-.75-.75V10ZM14 11.25a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 0 0 .75-.75V12a.75.75 0 0 0-.75-.75H14Z" />
                                         <path fill-rule="evenodd" d="M5.75 2a.75.75 0 0 1 .75.75V4h7V2.75a.75.75 0 0 1 1.5 0V4h.25A2.75 2.75 0 0 1 18 6.75v8.5A2.75 2.75 0 0 1 15.25 18H4.75A2.75 2.75 0 0 1 2 15.25v-8.5A2.75 2.75 0 0 1 4.75 4H5V2.75A.75.75 0 0 1 5.75 2Zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75Z" clip-rule="evenodd" />
                                     </svg>                            
-                                    ${elem.task_date?.toLocaleString()}
-                                </span>` 
-                                : 'no date select'}    
-                            
+                                    ${showFormatDate(elem.task_date)}
+                                </span>`
+                                : 'no date select'
+                            }    
+
                             ${elem.subtask_no ? `
                                 <p class="flex gap-2 items-center"><span class="size-max  px-2 py-0.5 bg-gray-300 text-[12px] flex justify-center items-center rounded-md">${elem.subtask_no}</span> Subtask</p>
                                 ` : ''
-            }
+                            }
 
-                            
-                             ${elem.task_list_type ? `                                      
+                            ${elem.task_list_type ? `                                      
                                 <p class="size-max flex items-center gap-2 bg-gray-100 px-2 py-1 rounded">                              
                                     <span class="w-3 h-3 bg-cyan-400 rounded-sm"></span>                          
                                     ${elem.task_list_type}   
                                 </p>` : ''
-            }  
+                            }  
                         </div>                           
                     </div>            
                 </div>
@@ -325,8 +254,7 @@ function renderTodolist() {
 
                             : `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
-                            </svg>                             
-                             `
+                            </svg>`
                         }
                     </button>
 
@@ -349,8 +277,7 @@ function renderTodolist() {
     });
     todoList.innerHTML = todo_list;
 }
-console.log(todos);
-//^  render todo lists End {read}
+//!^  render todo lists End {read}
 
 /*========================================================================
  **                           SECTION Create new Todo 
@@ -362,40 +289,42 @@ addTaskForm.addEventListener("submit", function (event) {
     const todo_list_id = todoIdInput.value;
     const task_name = todoTextInput.value;
     const task_description = todoDescription.value;
-    const list_type = listType.value;
+    const list_type = todoListType.value;
 
     const formInputDate = dueDate.value;
     const due_date = formInputDate ? new Date(formInputDate) : null;
 
     // console.log(due_date);
-    
-    if(todo_list_id){
+
+    if (todo_list_id) {
         const todo = todos.find((elem) => elem.id === todo_list_id);
         // edit existing array element
-        if(todo){
+        if (todo) {
             todo.task_name = task_name;
             todo.task_description = task_description;
             todo.task_list_type = list_type;
             if (due_date) {
-              todo.task_date = formatDate(due_date);
-              
+                todo.task_date = convertDateFormat(due_date);
+
             }
-            
+
 
         }
-    }else{
-    //& create new array element
+    } else {
+        //& create new array element
         todos.push({
             id: generateId(),
             task_name: task_name,
             task_description: task_description,
             task_list_type: list_type,
-            task_date: formatDate(due_date),
-            is_important: false,
+            task_date: due_date,
+            // is_important: false,
+            is_important: filter === "important" ? true : false,
+
             is_done: false,
         });
         console.log(todos);
-        
+
     }
 
     renderTodolist();
@@ -405,7 +334,7 @@ addTaskForm.addEventListener("submit", function (event) {
     todoIdInput.value = "";
     todoTextInput.value = "";
     todoDescription.value = "";
-    listType.value = "";
+    todoListType.value = "";
     dueDate.value = "";
 
     toggleSubmitBtns(false);
@@ -413,21 +342,10 @@ addTaskForm.addEventListener("submit", function (event) {
 //^ add new toto End {create} 
 /*============================ END OF SECTION ============================*/
 
-function formatDate(due_date) {   
-    const date = new Date(due_date);
 
-    const month = date.getMonth() + 1; 
-    const day = date.getDate();
-    const year = date.getFullYear();
 
-    let hours = date.getHours();
-    const minutes = date.getMinutes().toString().padStart(2, '0');
 
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12 || 12; 
 
-    return `${day}-${month}-${year}, ${hours}:${minutes} ${ampm}`;
-}
 
 //^ Dynamic action perform with onclick event(Checkbox, Mark Important, Edit, Delete)
 todoList.addEventListener("click", function (event) {
@@ -435,7 +353,7 @@ todoList.addEventListener("click", function (event) {
     if (event.target.matches(`input.todo-checkbox[type="checkbox"]`)) {
         const todo_id = event.target.closest("li").dataset.id;
         const index = todos.find((elem) => elem.id === todo_id);
-        if(index){
+        if (index) {
             index.is_done = event.target.checked;
             renderTodolist();
         }
@@ -447,7 +365,7 @@ todoList.addEventListener("click", function (event) {
         const todo_list_id = event.target.closest("li")?.dataset.id;
         const todo = todos.find((ele) => ele.id === todo_list_id);
 
-        if(todo){
+        if (todo) {
             todo.is_important = !todo.is_important;
             renderTodolist();
         }
@@ -467,21 +385,21 @@ todoList.addEventListener("click", function (event) {
         todoIdInput.value = todo_id;
         todoTextInput.value = task.task_name;
         todoDescription.value = task.task_description;
-        listType.value = task.task_list_type;
+        todoListType.value = task.task_list_type;
         dueDate.value = task.task_date;
         if (task.task_date) {
             const converted_local_due_date = convertDateFormat(task.task_date);
             dueDate.value = converted_local_due_date;
         }
         toggleSubmitBtns(true);
-    }  
+    }
 
     //& delete Button action perform
     const delBtn = event.target.closest('button.todo-delete-btn');
     if (delBtn) {
         const todo_id = event.target.closest("li").dataset.id;
         const index = todos.find((element) => element.id === todo_id);
-        if(index){
+        if (index) {
             todos.splice(index, 1);
             renderTodolist();
         }
@@ -504,13 +422,19 @@ function toggleSubmitBtns(edit = false) {
         addTodoItemBtn.classList.replace("hidden", "inline-flex");
         saveChangesBtn.classList.replace("inline-flex", "hidden");
     }
-  }
+}
+
+
+
+
+
 
 
 renderTodolist();
 
 
- 
+
+
 
 
 
