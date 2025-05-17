@@ -18,13 +18,16 @@
 
 <body class="poppins-regular tracking-wide box-border">
 
-  <div class="h-screen p-2 flex gap-2 ">
+  <div class="h-screen w-full  p-2 flex gap-2">
     <!--=========================== START OF SIDEBAR ===========================-->
-    <div class="min-w-2xs w-xs h-full bg-gray-100 p-4 rounded-2xl overflow-y-scroll">
+    <div class="min-w-[200px] sm:min-w-[240px] sm:bg-green-500 md:min-w-[280px] lg:min-w-[300px] lg:bg-red-100 h-full md:bg-gray-100 p-4 rounded-2xl overflow-y-scroll">
+    <!-- <div class="fixed top-0 bottom-0 lg:left-0 w-[300px] bg-gray-100 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out md:relative md:w-48 md:block hidden  p-4 rounded-2xl overflow-y-scroll"> -->
+    <!-- <div class="fixed top-0 bottom-0 lg:left-0 left-[-300px] w-[300px] bg-gray-100  p-4 rounded-2xl overflow-y-scroll"> -->
 
       <div class="flex justify-between items-center mb-3">
         <h2 class="text-xl font-semibold text-black-200">Menu</h2>
-        <span id="menuHideShow">
+        <!-- <span id="menuHideShow" class="md:hidden p-4" onclick="toggleSidebar()"> -->
+        <span  class="lg:hidden cursor-pointer p-4" onclick="toggleSidebar()">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
             stroke="currentColor" class="size-4 pointer-events-none">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
@@ -59,7 +62,7 @@
 
                 <span class="flex items-center gap-2 ml-2">All Task</span>
               </div>
-              <span class="w-8 py-0.5 bg-gray-300 flex justify-center items-center rounded-md notification" id="countAllTask"></span>
+              <span class="w-8 py-0.5 bg-gray-300 flex justify-center items-center rounded-md notification" id="countAllTask">5</span>
             </li>
 
             <li sidebar-item class="flex items-center justify-between p-1.5 select-none" data-filter="upcoming">
@@ -72,7 +75,7 @@
                 <span class="flex items-center gap-2 ml-2">Upcoming</span>
               </div>
               <span
-                class="w-8 py-0.5 bg-gray-300 text-[12px] flex justify-center items-center rounded-md notification" id="countUpcomingTask"></span>
+                class="w-8 py-0.5 bg-gray-300 text-[12px] flex justify-center items-center rounded-md notification" id="countUpcomingTask">6</span>
             </li>
 
             <li sidebar-item class="flex items-center justify-between p-1.5 select-none" data-filter="today">
@@ -191,9 +194,9 @@
 
 
     <!--=========================== START OF MAIN CONTENT ===========================-->
-    <div id="content" class="size-full h-full flex gap-2 overflow-y-auto">
+    <div id="content" class=" min-w-[calc(100%_-_200px)] sm:min-w-[calc(100%_-_240px)] sm:bg-green-200 md:min-w-[calc(100%_-_260px)] lg:min-w-[calc(100%_-_308px)]  h-full flex gap-2 overflow-y-auto">
       <!-- & Task View Read from middle -->
-      <div id="taskListContainer" class="w-full p-4 rounded-md transition-all duration-300">
+      <div id="taskListContainer" class="w-full p-4 rounded-md transition-all duration-300 border">
         <div class="mb-8 flex items-center">
           <div id="sidebarClickedTaskName" class="text-3xl font-bold text-gray-700 inline-flex">
             
@@ -218,7 +221,7 @@
       <!-- & Read, Edit and Delete content full view from right side -->
       <!-- <form id="addTodoForm" class="w-md bg-gray-50 p-4 space-y-3 rounded-2xl"> -->
       <form id="addTaskForm"
-        class="w-0 h-full transition-all duration-300 hidden overflow-hidden  p-4 space-y-4  bg-gray-100 rounded-2xl relative">
+        class="w-0 h-full transition-all duration-300 hidden overflow-hidden  p-4 space-y-4  bg-red-100 rounded-2xl relative">
         <!-- <div class="   bg-gray-100" -->
 
         <!--* Edit and view content top -->
@@ -318,8 +321,8 @@
 
 
 
-  <!-- <script type="module" src="src/main.js"></script> -->
-  <script type="module" src="src/main.js"></script>
+ 
+  <script type="module" src="./src/main.js"></script>
   <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
 </body>
 

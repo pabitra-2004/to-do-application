@@ -83,12 +83,29 @@ function clickSidebarEvent(event) {
 // !^ Sidebar section End
 
 
-
-
+class Todo {
+  constructor({
+    task_name,
+    task_description,
+    task_list_type,
+    task_date = null,
+    subtask_no,
+    is_important = false,
+    is_done = false,
+  }) {
+    this.id = generateId();
+    this.task_name = task_name;
+    this.task_description = task_description;
+    this.task_list_type = task_list_type;
+    this.task_date = task_date;
+    this.subtask_no = subtask_no;
+    this.is_important = is_important;
+    this.is_done = is_done;
+  }
+}
 
 const todos = [
-    {
-        id: generateId(),
+    new Todo({
         task_name: "Consult accountent name",
         task_description: "Consult accountent",
         task_list_type: "Other",
@@ -96,21 +113,16 @@ const todos = [
         task_date: new Date(["2025-05-05T17:01"]),
         subtask_no: 4,
         is_important: true,
-        is_done: false,
-    },
-    {
-        id: generateId(),
+    }),
+
+    new Todo({
         task_name: "Research ocntent ideas",
         task_description: "Research ocntent ideas",
         task_list_type: "Work",
-        // task_date: new Date("Wed May 27 2026 02:00:00 GMT+0530 (India Standard Time)"),
-        task_date: new Date(["2025-05-17T17:13"]),
+        task_date: new Date(["2025-05-17T17:01"]),
         subtask_no: 1,
-        is_important: false,
-        is_done: false,
-    },
-    {
-        id: generateId(),
+    }),
+    new Todo({
         task_name: "Create a database of guest authors",
         task_description: "Create a database of guest authors",
         task_list_type: "",
@@ -118,40 +130,26 @@ const todos = [
         subtask_no: 2,
         is_important: true,
         is_done: true,
-    },
-    {
-        id: generateId(),
+    }),
+    new Todo({
         task_name: "Renew driver's licence",
         task_description: "Renew driver's licence",
         task_list_type: "Personal",
-        task_date: new Date(["2025-05-07T17:13"]),
+        task_date: new Date(["2025-05-15T17:13"]),
         subtask_no: 3,
-        is_important: false,
-        is_done: false,
-    },
-    // {
-    //     id: generateId(),
-    //     task_name: "Consult accountent",
-    //     task_description: "Consult accountent",
-    //     task_list_type: "Other",
-    //     task_date: formatDate(["2025-05-27T17:13"]),
-    //     // task_date: formatDate(["YYYY-DD-MM, 5:13 PM"]),
-    //     subtask_no: 4,
-    //     is_important: false,
-    //     is_done: false,
-    // },
-    // {
-    //     id: generateId(),
-    //     task_name: "Consult accountent edit",
-    //     task_description: "Consult accountent",
-    //     task_list_type: "Other",
-    //     task_date: formatDate(["2025-05-17T17:13"]),
-    //     subtask_no: 4,
-    //     is_important: true,
-    //     is_done: false,
-    // },
+    }),
+    new Todo({
+        task_name: "Consult accountent",
+        task_description: "Consult accountent",
+        task_list_type: "Other",
+        task_date: new Date(["2025-12-27T17:13"]),
+        // task_date: new date(["YYYY-MM-DD, hh:mm PM"]),
+        subtask_no: 4,
+    }),
 ];
-// console.log(todos)
+
+console.log(todos);
+
 
 //! Todo form show and hide section Start
 addNewTaskBtn.addEventListener('click', () => {
@@ -178,6 +176,18 @@ deleteTaskBtn.addEventListener('click', hideFormContainer);
 //!^  render todo lists Start {read}
 let filter = "all";
 function renderTodolist() {
+
+    // show | hide on filter
+    if (filter === "completed") {
+        // addNewTaskBtn.classList.add("hidden");
+    } else if (filter === "today") {
+        // addTaskForm.classList.add("hidden");
+    } else {
+        // addNewTaskBtn.classList.remove("hidden");
+        // addTaskForm.classList.remove("hidden");
+    }
+
+
     const filtered_todos = todos.filter((todo) => {
         const currentDateTime = new Date();
         const givenDateTime = todo.task_date;
@@ -198,6 +208,8 @@ function renderTodolist() {
             return todo.is_done;
         }
     });
+
+  console.log("filtered_todos", filtered_todos);
 
     document.querySelectorAll("[sidebar-item]").forEach((el) => {
         if (el.dataset.filter === filter) {
@@ -375,10 +387,11 @@ todoList.addEventListener("click", function (event) {
     const editBtn = event.target.closest('button.todo-edit-btn');
     if (editBtn) {
         taskListContainer.classList.remove('w-full');
-        taskListContainer.classList.add('w-3/4');
+        taskListContainer.classList.add('sm:min-w-[calc(10%_-_240px)]','md:min-w-[calc(10%_-_280px)]','lg:min-w-[calc(10%_-_300px)]');
+        // taskListContainer.classList.add('w-[calc(100%_-_320px)]');
         addTaskForm.classList.remove('hidden', 'w-0');
-        addTaskForm.classList.add('w-md');
-
+        addTaskForm.classList.add('sm:min-w-[calc(10%_-_240px)]','md:min-w-[calc(10%_-_280px)]','lg:min-w-[calc(10%_-_300px]');
+// min-w-[calc(100%_-_200px)] sm:min-w-[calc(100%_-_240px)] sm:bg-green-100 md:min-w-[calc(100%_-_280px)] lg:min-w-[calc(100%_-_300px)]
         const todo_id = event.target.closest("li").dataset.id;
         const task = todos.find((todo) => todo.id === todo_id);
 
