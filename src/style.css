@@ -113,18 +113,30 @@
 
 .active {
   background-color: #e5e7eb;
-  background-color: #3b82f6;
+  background-color: #3b83f672;
+  background-color: #238781;
+  background-color: #e5f5f4;
+  background-color: #e5e7eb;
   /* color: #fff; */
   color: #f9fafb;
+  color: #238781;
+  color: #374151;
   /* color: #374151; */
   /* border: 1px solid #d1d5db; */
   border-radius: 0.375rem;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.25rem;
   font-weight: 600;
   transition-duration: 0.4s;
   transition-timing-function: ease-in-out;
+
+  & .svg {
+    /* background-color: rgba(0, 0, 255, 0.6); */
+    background: white;
+
+    color: black;
+  }
 
   & .notification {
     background: white;
@@ -134,3 +146,15 @@
     align-items: center;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
